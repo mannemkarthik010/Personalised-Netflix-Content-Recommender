@@ -7,7 +7,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from auth.users import authentication_flow
 from data_manager import load_movie_data
 from recommender import MovieRecommender
-from ui_components import show_recommendations, movie_selector, show_header
+from ui_components import show_recommendations, movie_selector, show_header, movie_card
 
 # Configure page FIRST
 st.set_page_config(
@@ -48,9 +48,9 @@ def main():
     if page == "Recommendations":
         show_recommendation_interface(movies_df, recommender)
     elif page == "Watchlist":
-        show_watchlist(st.session_state.user)
+        show_watchlist(st.session_state.user, movies_df)  # Pass movies_df
     elif page == "Watched":
-        show_watched(st.session_state.user)
+        show_watched(st.session_state.user, movies_df)  # Pass movies_df
 
 def show_recommendation_interface(movies_df, recommender):
     """Main recommendation interface"""
@@ -76,11 +76,12 @@ def show_recommendation_interface(movies_df, recommender):
                 
                 if recommendations is not None:
                     st.subheader(f"Recommendations for: {selected_movie}")
-                    show_recommendations(recommendations, scores)
+                    # Remove st.write(recommendations) to avoid showing the table
+                    show_recommendations(recommendations, scores, st.session_state.user)
                 else:
                     st.error("No recommendations found")
-def show_watchlist(user):
-    """Display user's watchlist"""
+def show_watchlist(user, movies_df):
+    """Display user's watchlist in a vertical layout (one by one)"""
     st.header("⭐ Your Watchlist")
     from app.auth.database import auth_db
     watchlist_ids = auth_db.get_watchlist(user)
@@ -89,14 +90,16 @@ def show_watchlist(user):
         st.info("Your watchlist is empty. Add movies from recommendations!")
         return
         
-    watchlist_movies = movies_df[movies_df['id'].isin(watchlist_ids)]
-    cols = st.columns(4)
+    # Use the correct column name 'show_id'
+    watchlist_movies = movies_df[movies_df['show_id'].isin(watchlist_ids)]
+    
+    # Loop through each movie and display it vertically
     for idx, (_, movie) in enumerate(watchlist_movies.iterrows()):
-        with cols[idx % 4]:
-            movie_card(movie.to_dict(), 1.0, user)  # Full score for watchlist
+        # Display each movie in a vertical layout
+        movie_card(movie.to_dict(), 1.0, user, idx)  # Full score for watchlist
 
-def show_watched(user):
-    """Display user's watched movies"""
+def show_watched(user, movies_df):
+    """Display user's watched movies in a vertical layout (one by one)"""
     st.header("✅ Watched Movies")
     from app.auth.database import auth_db
     watched_ids = auth_db.get_watched(user)
@@ -105,11 +108,13 @@ def show_watched(user):
         st.info("You haven't watched any movies yet!")
         return
         
-    watched_movies = movies_df[movies_df['id'].isin(watched_ids)]
-    cols = st.columns(4)
+    # Use the correct column name 'show_id'
+    watched_movies = movies_df[movies_df['show_id'].isin(watched_ids)]
+    
+    # Loop through each movie and display it vertically
     for idx, (_, movie) in enumerate(watched_movies.iterrows()):
-        with cols[idx % 4]:
-            movie_card(movie.to_dict(), 1.0, user)  # Full score for watched
+        # Display each movie in a vertical layout
+        movie_card(movie.to_dict(), 1.0, user, idx)  # Full score for watched
 
 if __name__ == "__main__":
     main()
