@@ -16,6 +16,35 @@ Welcome to the **Personalized Netflix Content Recommender**! This project is des
 - **TMDB Integration**: Fetch movie posters and details from TMDB.
 
 ---
+## Project structure
+    ```bash
+    Personalized-Netflix-Content-Recommender/
+    │
+    ├── app/
+    │   ├── auth/
+    │   │   ├── __init__.py
+    │   │   ├── components.py
+    │   │   ├── database.py
+    │   │   └── users.py
+    │   ├── data_manager.py
+    │   ├── poster_utils.py
+    │   ├── recommender.py
+    │   ├── ui_components.py
+    │   └── main.py
+    │
+    ├── data/
+    │   ├── movies_df.csv
+    │   └── movies_sim.npz
+    │
+    ├── assets/
+    │   └── default_poster.png
+    │
+    ├── .env
+    ├── requirements.txt
+    └── README.md
+
+
+---
 
 ## How It Works
 
