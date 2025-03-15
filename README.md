@@ -57,13 +57,10 @@ Welcome to the **Personalized Netflix Content Recommender**! This project is des
    MONGO_URI=your_mongodb_connection_string
    DB_NAME=your_database_name
    TMDB_API_KEY=your_tmdb_api_key
-3. **Install Dependencies:**:
-   ```bash
-   pip install -r requirements.txt
-4. **Run the Application:**
+3. **Run the Application:**
    ```bash
    streamlit run main.py
-5. **Access the Application:**
+4. **Access the Application:**
    * Open your browser and go to http://localhost:8501.
 
 
