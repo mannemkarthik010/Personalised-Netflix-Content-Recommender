@@ -1,10 +1,10 @@
-# app/poster_utils.py
+
 import requests
 import streamlit as st
 from io import BytesIO
 from functools import lru_cache
 
-TMDB_API_KEY = st.secrets["TMDB_API_KEY"]  # Add to Streamlit secrets
+TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 def get_movie_poster(title):
     """Fetch movie poster with timeout"""
@@ -16,9 +16,8 @@ def get_movie_poster(title):
                     "api_key": st.secrets["TMDB_API_KEY"],
                     "query": title
                 },
-                timeout=3  # 3-second timeout
+                timeout=3  
             )
-        # ... rest of the function
     except (requests.Timeout, ConnectionError):
         return "assets/default_poster.png"
 
