@@ -3,13 +3,13 @@ from pathlib import Path
 import streamlit as st
 sys.path.append(str(Path(__file__).parent.parent))
 
-# Then your other imports
+
 from auth.users import authentication_flow
 from data_manager import load_movie_data
 from recommender import MovieRecommender
 from ui_components import show_recommendations, movie_selector, show_header, movie_card
 
-# Configure page FIRST
+
 st.set_page_config(
     page_title="NextFlix",
     page_icon="🎬",
@@ -76,7 +76,6 @@ def show_recommendation_interface(movies_df, recommender):
                 
                 if recommendations is not None:
                     st.subheader(f"Recommendations for: {selected_movie}")
-                    # Remove st.write(recommendations) to avoid showing the table
                     show_recommendations(recommendations, scores, st.session_state.user)
                 else:
                     st.error("No recommendations found")
@@ -90,12 +89,9 @@ def show_watchlist(user, movies_df):
         st.info("Your watchlist is empty. Add movies from recommendations!")
         return
         
-    # Use the correct column name 'show_id'
     watchlist_movies = movies_df[movies_df['show_id'].isin(watchlist_ids)]
     
-    # Loop through each movie and display it vertically
     for idx, (_, movie) in enumerate(watchlist_movies.iterrows()):
-        # Display each movie in a vertical layout
         movie_card(movie.to_dict(), 1.0, user, idx)  # Full score for watchlist
 
 def show_watched(user, movies_df):
@@ -108,13 +104,10 @@ def show_watched(user, movies_df):
         st.info("You haven't watched any movies yet!")
         return
         
-    # Use the correct column name 'show_id'
     watched_movies = movies_df[movies_df['show_id'].isin(watched_ids)]
     
-    # Loop through each movie and display it vertically
     for idx, (_, movie) in enumerate(watched_movies.iterrows()):
-        # Display each movie in a vertical layout
-        movie_card(movie.to_dict(), 1.0, user, idx)  # Full score for watched
+        movie_card(movie.to_dict(), 1.0, user, idx)
 
 if __name__ == "__main__":
     main()
