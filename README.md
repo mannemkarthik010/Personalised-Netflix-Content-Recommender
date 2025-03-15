@@ -17,7 +17,7 @@ Welcome to the **Personalized Netflix Content Recommender**! This project is des
 
 ---
 ## Project structure
-    ```bash
+    ```
     Personalized-Netflix-Content-Recommender/
     │
     ├── app/
